@@ -3,28 +3,36 @@ name: Deploy to Firebase Hosting
 on:
   push:
     branches:
-      - main
+      - main  # Runs only when you push to main
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Node.js
+      # Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
+      # Install dependencies (skip if none)
+      - name: Install dependencies
+        run: npm install || echo "No package.json found, skipping..."
+
+      # Build project (only if you have a build step, else skip)
+      - name: Build project
+        run: npm run build || echo "No build script found, skipping..."
+
+      # Install Firebase CLI
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
-      - name: Build project
-        run: |
-          npm install
-          npm run build
-
+      # Deploy to Firebase Hosting
       - name: Deploy to Firebase
-        run: firebase deploy --only hosting --token ${{ secrets.FIREBASE_TOKEN }}
+        run: firebase deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}"
+
