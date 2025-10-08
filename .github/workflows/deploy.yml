@@ -3,11 +3,12 @@ name: Deploy to Firebase Hosting
 on:
   push:
     branches:
-      - main
+      - main  # deploy only when pushing to main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -15,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '20' # Firebase CLI requires Node.js >= 20
 
       - name: Install dependencies
         run: npm install
@@ -23,10 +24,5 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy to Firebase
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
-          channelId: live
-          projectId: vital-stack-435712
+      - name: Deploy to Firebase Hosting
+        run: npx firebase-tools deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}"
