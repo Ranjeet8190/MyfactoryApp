@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "vital-stack-435712"
+  },
+  "targets": {
+    "vital-stack-435712": {
+      "hosting": {
+        "default": [
+          "vital-stack-435712"
+        ]
+      }
+    }
   }
 }
