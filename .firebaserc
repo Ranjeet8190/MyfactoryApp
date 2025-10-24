@@ -1,22 +1,14 @@
 {
   "projects": {
-    "default": "vital-stack-435712"
+    "default": "vital-stack-435712-k0"
   },
   "targets": {
-    "vital-stack-435712": {
-      "hosting": {
-        "default": [
-          "vital-stack-435712"
-        ]
-      }
-    },
     "vital-stack-435712-k0": {
       "hosting": {
         "myfactoryapp": [
-          "vital-stack-435712"
+          "myfactoryapp"
         ]
       }
     }
-  },
-  "etags": {}
+  }
 }
