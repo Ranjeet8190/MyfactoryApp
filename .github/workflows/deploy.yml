@@ -1,9 +1,10 @@
 name: Deploy to Firebase Hosting
 
 on:
+  workflow_dispatch:    # 👈 This enables the Run workflow button manually
   push:
     branches:
-      - main  # deploy only when pushing to main
+      - main            # Deploy automatically when pushing to main
 
 jobs:
   build-and-deploy:
@@ -11,19 +12,29 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '20' # Firebase CLI requires Node.js >= 20
+          node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build project
         run: npm run build
 
       - name: Deploy to Firebase Hosting
-        - run: npx firebase-tools deploy --only hosting:myfactoryapp --token "${{ secrets.FIREBASE_TOKEN }}"
+        run: npx firebase-tools deploy --only hosting:myfactoryapp --token "${{ secrets.FIREBASE_TOKEN }}"
+
+
+git add .github/workflows/deploy.yml
+git commit -m "Add manual run trigger for Firebase deploy"
+git push origin main
+
+
+
+
+
 
